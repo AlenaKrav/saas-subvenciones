@@ -1,17 +1,16 @@
 import { FastifyRequest, FastifyReply} from "fastify";
 import { v4 as uuid } from 'uuid'
 import data from '../data.json'
+import { UserType, UserParamsType, CreateUserType, UpdateUserType } from "../shemas/user.schema";
 
-interface User {
-    id: string
-    name: string
-    email: string
-}
+//tipamos la variable users con el tipo exportado del Schema haciendo una copia mutable del array de objetos de nuestro json
+let users: UserType[] = [...data]
 
-//tipamos la variable users haciendo una copia mutable del array de objetos de nuestro json
-let users: User[] = [...data]
-
-export const getUsers = async (_request: FastifyRequest, reply:FastifyReply) => {
+// tipamos request y reply con los tipos de Fastify para mantener el acceso a los metodos send, y parametros body, request y params
+// ademas aqui podemos tipar el request con nuestro propios tipos para decirle a TS que tipo de datos se esperan recibir
+// request: FastifyRequest<{ParamsType}> en vez de hacer request.params as {id: string}
+// reply no lo podemos tipar aqui sino en el router
+export const getUsers = async (_request: FastifyRequest, reply: FastifyReply) => {
     try {
         return reply.send(users)
     } catch (error) {
@@ -20,9 +19,10 @@ export const getUsers = async (_request: FastifyRequest, reply:FastifyReply) => 
     }
 }
 
-export const getUserById = async (request: FastifyRequest, reply:FastifyReply) => {
+// aqui tipamos los parametros del request con nuestro propio tipo
+export const getUserById = async (request: FastifyRequest<{Params: UserParamsType}>, reply:FastifyReply) => {
     //desestrucuramos
-    const {id} = request.params as {id: string};
+    const {id} = request.params;
     const user = users.find(u => u.id === id);
     if(!user) {
         return reply.status(404).send({error: 'User not found'});
@@ -30,18 +30,19 @@ export const getUserById = async (request: FastifyRequest, reply:FastifyReply) =
     return user;
 }
 
-export const createUser = (request: FastifyRequest, reply:FastifyReply) => {
-    const {name, email } = request.body as {name?:string, email?:string};
+
+export const createUser = (request: FastifyRequest<{Body: CreateUserType}>, reply:FastifyReply) => {
+    const {name, email } = request.body;
     const newUser = {id: uuid(), name, email};
     users.push(newUser);
     return reply.status(200).send(newUser);
 }
 
-export const updateUser = (request: FastifyRequest, reply:FastifyReply) => {
+export const updateUser = (request: FastifyRequest<{Params: UserParamsType, Body: UpdateUserType}>, reply:FastifyReply) => {
     //obtenemos el id del parametro de la url
-    const {id} = request.params as {id: string};
+    const {id} = request.params;
     //obtenemos si en el body hay el nombre o el email
-    const {name, email } = request.body as {name?:string, email?:string};
+    const {name, email } = request.body;
     //user encontrado en json
     const user = users.find(u => u.id === id);
     if(!user) {
@@ -57,8 +58,8 @@ export const updateUser = (request: FastifyRequest, reply:FastifyReply) => {
     return user;
 }
 
-export const deleteUser = (request: FastifyRequest, reply:FastifyReply) => {
-    const {id} = request.params as {id: string};
+export const deleteUser = (request: FastifyRequest<{Params: UserParamsType}>, reply:FastifyReply) => {
+    const {id} = request.params;
     //el index del user con el mismo id que en el parametro
     const index = users.findIndex(u => u.id === id);
     //si no lo hemos encontrado
