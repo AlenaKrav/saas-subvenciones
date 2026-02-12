@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply} from "fastify";
 import { v4 as uuid } from 'uuid'
-import data from './data.json'
+import data from '../data.json'
 
 interface User {
     id: string

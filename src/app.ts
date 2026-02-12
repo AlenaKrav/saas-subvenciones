@@ -1,6 +1,6 @@
 // importamos el tipo para TS
 import fastify, { type FastifyInstance } from "fastify";
-import UserRoutes from "./routes";
+import UserRoutes from "./routes/routes";
 
 // creamos el servidor, activando el log en la consola
 const app:FastifyInstance = fastify({logger:true});

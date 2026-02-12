@@ -1,5 +1,5 @@
 import fastify, { type FastifyInstance } from "fastify";
-import { createUser, deleteUser, getUserById, getUsers, updateUser } from "./controllers";
+import { createUser, deleteUser, getUserById, getUsers, updateUser } from "../controllers/controllers";
 
 // esta funcion como parametro recibe la instancia del servidor fastify
 // que nos permite definir rutas fastify.get y etc
