@@ -31,11 +31,14 @@ export const getUserById = async (request: FastifyRequest<{Params: UserParamsTyp
 }
 
 
-export const createUser = (request: FastifyRequest<{Body: CreateUserType}>, reply:FastifyReply) => {
+export const createUser = (request: FastifyRequest<{Body: CreateUserType}>, _reply:FastifyReply) => {
     const {name, email } = request.body;
     const newUser = {id: uuid(), name, email};
     users.push(newUser);
-    return reply.status(200).send(newUser);
+    // si lo hacemos asi luego en router no podemos tipar el reply ya que desde aqui se envia FastifyReply y en el router se espera UserType
+    // return reply.status(200).send(newUser); 
+    // por ello solo devolvemos el objeto
+    return newUser;
 }
 
 export const updateUser = (request: FastifyRequest<{Params: UserParamsType, Body: UpdateUserType}>, reply:FastifyReply) => {

@@ -1,10 +1,10 @@
-import { Type, Static, Union } from "@sinclair/typebox";
+import { Type, Static } from "@sinclair/typebox";
 
 // Tipo Generico de User
 export const User = Type.Object({
     id: Type.String(),
     name: Type.String(),
-    email: Type.Optional(Type.String({format: 'email'}))
+    email: Type.String({format: 'email'})
 });
 
 // export const UserParams = Type.Object({
