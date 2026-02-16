@@ -1,6 +1,6 @@
 import fastify, { type FastifyInstance } from "fastify";
 import { createUser, deleteUser, getUserById, getUsers, updateUser } from "../controllers/controllers";
-import { User, UserType, UserParams, UserParamsType, UpdateUser, UpdateUserType, CreateUser, CreateUserType } from "../shemas/user.schema";
+import { User, UserType, UserParams, UserParamsType, UpdateUser, UpdateUserType, CreateUser, CreateUserType } from "../schemas/user.schema";
 import { Type } from "@sinclair/typebox";
 import { Create } from "@sinclair/typebox/value";
 

@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply} from "fastify";
 import { v4 as uuid } from 'uuid'
 import data from '../data.json'
-import { UserType, UserParamsType, CreateUserType, UpdateUserType } from "../shemas/user.schema";
+import { UserType, UserParamsType, CreateUserType, UpdateUserType } from "../schemas/user.schema";
 
 //tipamos la variable users con el tipo exportado del Schema haciendo una copia mutable del array de objetos de nuestro json
 let users: UserType[] = [...data]
