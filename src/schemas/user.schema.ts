@@ -15,7 +15,7 @@ export const UserParams = Type.Pick(User, ['id']);
 
 export const CreateUser = Type.Object({
         name: Type.String({minLength:2}),
-        email: Type.String({format: 'email'})
+        email: Type.String({format: 'email', minLength: 5})
 });
 
 // export const UpdateUser = Type.Object({

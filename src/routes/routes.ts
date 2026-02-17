@@ -1,9 +1,7 @@
 import fastify, { type FastifyInstance } from "fastify";
-import { createUser, deleteUser, getUserById, getUsers, updateUser } from "../controllers/controllers";
+import { createUserHandler, deleteUserHandler, getUserByIdHandler, getUsersHandler, updateUserHandler } from "../controllers/controllers";
 import { User, UserType, UserParams, UserParamsType, UpdateUser, UpdateUserType, CreateUser, CreateUserType } from "../schemas/user.schema";
 import { Type } from "@sinclair/typebox";
-import { Create } from "@sinclair/typebox/value";
-
 
 // esta funcion como parametro recibe la instancia del servidor fastify
 // que nos permite definir rutas fastify.get y etc
@@ -16,7 +14,7 @@ export default async function UserRoutes (fastify: FastifyInstance) {
                 200: Type.Array(User)
             }
         }
-    }, getUsers);
+    }, getUsersHandler);
 
     fastify.post<{Body: CreateUserType, Reply: UserType}>('/', {
         schema: {
@@ -25,8 +23,9 @@ export default async function UserRoutes (fastify: FastifyInstance) {
                 200: User
             }
         }
-    }, 
-        createUser);
+    }, createUserHandler);
+
+
     fastify.get<{Params: UserParamsType, Reply: UserType}>('/:id', {
         schema: {
             params: UserParams,
@@ -34,7 +33,7 @@ export default async function UserRoutes (fastify: FastifyInstance) {
                 200: User
             }
         }
-    }, getUserById);
+    }, getUserByIdHandler);
 
     fastify.patch<{Params: UserParamsType, Body: UpdateUserType, UpReply: UserType}>('/:id', {
         schema: {
@@ -44,11 +43,11 @@ export default async function UserRoutes (fastify: FastifyInstance) {
                 200: User
             }
         }
-    }, updateUser);
+    }, updateUserHandler);
 
     fastify.delete<{Params: UserParamsType}>('/:id', {
         schema: {
             params: UserParams
         }
-    }, deleteUser);
+    }, deleteUserHandler);
 }
