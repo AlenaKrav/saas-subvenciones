@@ -20,7 +20,7 @@ export default async function UserRoutes (fastify: FastifyInstance) {
         schema: {
             body: CreateUser,
             response: {
-                200: User
+                201: User //Debe coincidir con el statusCode que indicamos en el handler, si no no se valida contra el schema
             }
         }
     }, createUserHandler);
@@ -40,7 +40,7 @@ export default async function UserRoutes (fastify: FastifyInstance) {
             params: UserParams,
             body: UpdateUser,
             response:{
-                200: User
+                201: User
             }
         }
     }, updateUserHandler);

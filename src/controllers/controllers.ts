@@ -36,7 +36,7 @@ export const updateUserHandler = async (request: FastifyRequest<{Params: UserPar
     //definismo el objeto que nos puede venir del request
     const data: UpdateUserType = request.body;
 
-    //si el objeto que nos viene le faltan los campos
+    //si el objeto que nos viene le faltan ambos campos
     if(Object.keys(data).length === 0){
         return reply.status(404).send({error: 'No fields provided'});
     }
