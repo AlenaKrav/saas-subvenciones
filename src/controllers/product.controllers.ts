@@ -52,5 +52,5 @@ export const deleteProductHandler = async(request: FastifyRequest<{Params: Prouc
     }
 
     await deleteProduct(id);
-    return {message: 'User deleted'}
+    return {message: 'Product deleted'}
 }
