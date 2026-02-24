@@ -18,10 +18,10 @@ export async function createProduct(name: string, description: string){
     })
 };
 
-export async function updateProduct(id: number, name?: string, description?: string){
+export async function updateProduct(id: number, data: { name?: string; description?: string }){
     return prisma.product.update({
         where: {id},
-        data: {name, description}
+        data
     });
 };
 

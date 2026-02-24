@@ -9,7 +9,7 @@ export const Product = z.object({
 export const ProductParams = Product.pick({id: true});
 
 export const CreateProduct = z.object({
-    name: z.int(),
+    name: z.string().min(3),
     description: z.string().min(5)
 });
 
