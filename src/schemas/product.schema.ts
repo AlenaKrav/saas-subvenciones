@@ -1,7 +1,7 @@
 import {z} from 'zod';
 
 export const Product = z.object({
-    id: z.string(),
+    id: z.int(),
     name: z.string(),
     description: z.string()
 });
@@ -9,7 +9,7 @@ export const Product = z.object({
 export const ProductParams = Product.pick({id: true});
 
 export const CreateProduct = z.object({
-    name: z.string().min(3),
+    name: z.int(),
     description: z.string().min(5)
 });
 
