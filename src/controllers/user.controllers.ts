@@ -22,8 +22,8 @@ export const getUserByIdHandler = async (request: FastifyRequest<{Params: UserPa
 
 
 export const createUserHandler = async (request: FastifyRequest<{Body: CreateUserType}>, reply:FastifyReply) => {
-    const { name, email } = request.body;
-    const newUser = await createUser(name, email);
+    const { name, email, password } = request.body;
+    const newUser = await createUser(name, email, password);
     return reply.code(201).send(newUser);
 }
 
