@@ -2,6 +2,7 @@
 import fastify, { type FastifyInstance } from "fastify";
 import UserRoutes from "./routes/user.routes";
 import ProductRoutes from "./routes/product.routes";
+import AuthRoutes from "./routes/auth.routes"
 import { ZodTypeProvider, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
 
 
@@ -20,5 +21,6 @@ const app: FastifyInstance = fastify({ logger: true })
 // se "monta/instala" el plugin (funcion que se encarga de enrutamiento) bajo el prefijo /users
 app.register(UserRoutes, {prefix: '/users'});
 app.register(ProductRoutes, {prefix: '/products'});
+app.register(AuthRoutes, {prefix: '/auth'})
 
 export default app;
