@@ -2,10 +2,12 @@ import { type FastifyInstance } from "fastify";
 import { getAllProductsHandler, getProductHandler, createProductHandler, updateProductHandler, deleteProductHandler } from "../controllers/product.controllers"; 
 import { Product, ProductParams, CreateProduct, UpdateProduct, ProductType, ProuctParamsType, CreateProductType, UpdateProductType } from "../schemas/product.schema";
 import { Type } from "@sinclair/typebox";
+import { authenticate } from "../hooks/auth.hook";
 // import {z} from 'zod';
 
 export default async function ProductRoutes (fastify: FastifyInstance) {
     fastify.get<{Reply: ProductType []}>('/', {
+        onRequest: [authenticate],
         schema: {
             response: {
                 200: Type.Array(Product)
@@ -14,6 +16,7 @@ export default async function ProductRoutes (fastify: FastifyInstance) {
     }, getAllProductsHandler);
 
     fastify.post<{Body: CreateProductType, Reply: ProductType}>('/', {
+        onRequest: [authenticate],
         schema: {
             body: CreateProduct,
             response: {
@@ -23,6 +26,7 @@ export default async function ProductRoutes (fastify: FastifyInstance) {
     }, createProductHandler);
 
     fastify.get<{Params: ProuctParamsType, Reply: ProductType}>('/:id', {
+        onRequest: [authenticate],
         schema: {
             params: ProductParams,
             response: {
@@ -32,6 +36,7 @@ export default async function ProductRoutes (fastify: FastifyInstance) {
     }, getProductHandler);
 
     fastify.patch<{Params: ProuctParamsType, Body: UpdateProductType, reply: ProductType}>('/:id', {
+        onRequest: [authenticate],
         schema: {
             params: ProductParams,
             body: UpdateProduct,
@@ -43,6 +48,7 @@ export default async function ProductRoutes (fastify: FastifyInstance) {
 
 
     fastify.delete<{Params: ProuctParamsType }>('/:id', {
+        onRequest: [authenticate],
         schema: {
             params: ProductParams,
         }
