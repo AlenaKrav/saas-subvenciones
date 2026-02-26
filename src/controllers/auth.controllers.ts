@@ -55,14 +55,19 @@ export const loginHandler = async (request: FastifyRequest<{Body: LoginSchemaTyp
     }
 
     //generamos token
-        const token = generateToken({userId: existingUser.id, email: existingUser.email});
+    const token = generateToken({userId: existingUser.id, email: existingUser.email});
+
+    //aunque el schema de validacion usado no devuelve el password, para asegurarnos de que nunca se llega a devolver el password
+    //creamos otro objeto pero sin el password
+    //setemos password con _ (existe pero no se usa), copiamos esa propiedad y el resto de propiedades de existingUser a user userWithoutPassword
+    const {password: _, ...userWithoutPassword} = existingUser;
 
     //devolvemos token
     return reply.code(200).send({
         success: true,
         data: {
             token,
-            user: existingUser //AQUI SE DEVUELVE EL USER CON EL PASSWORD, pero luego el schema de validación no lo incliuye
+            user: userWithoutPassword //ahora si que si no devolvemos el password
         }
     });
 }
