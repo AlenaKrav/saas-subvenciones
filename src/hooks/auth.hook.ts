@@ -1,8 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import jwt from 'jsonwebtoken';
 import { JWTPayloadSchemaType } from '../schemas/auth.schema';
-
-const JWT_SECRET = process.env.JWT_SECRET;
+import { verifyToken } from "../services/auth.jwt";
 
 //Extendemos el objeto Fastify Request para que tenga una propiedad adicional - user
 // además tipamos request.user de la siguente forma
@@ -40,7 +38,7 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply 
     // jwt.verify devuelve jwtPayload con cualquier propiedad que le metamos
     // aqui TS todavia no sabe que con jwt.sign() le metimos userId y email
     // al hacer el casteo explicito le decimos a TS que forma tiene exactamente
-    const decodedToken = jwt.verify(token, JWT_SECRET) as JWTPayloadSchemaType;
+    const decodedToken = verifyToken(token);
     request.user = decodedToken;
     }
     catch{

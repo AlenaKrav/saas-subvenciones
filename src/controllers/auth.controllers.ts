@@ -1,12 +1,10 @@
 import { FastifyRequest, FastifyReply} from "fastify";
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import { RegisterSchemaType, LoginSchemaType, AuthResponseSchemaType, JWTPayloadSchemaType } from "../schemas/auth.schema";
+import { hashPassword, comparePassword } from "../services/auth.hash";
+import { RegisterSchemaType, LoginSchemaType } from "../schemas/auth.schema";
 import { registerUser, getUserByEmail } from "../services/auth.service";
+import { generateToken } from "../services/auth.jwt";
 
-const JWT_SECRET = process.env.JWT_SECRET;
-const SALT_ROUNDS = 10;
-const JWT_EXPIRATION_TIME = '24h';
+
 
 export const registerHandler = async (request: FastifyRequest<{Body: RegisterSchemaType}>, reply: FastifyReply) => {
     const { name, email, password} = request.body;
@@ -19,14 +17,12 @@ export const registerHandler = async (request: FastifyRequest<{Body: RegisterSch
         })
     }
 
-    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    const hashedPassword = await hashPassword(password);
     const newUser = await registerUser({name, email, password: hashedPassword});
     
     //GENERAR TOKEN para 24h
-    const token = jwt.sign(
-        {userId: newUser.id, email: newUser.email},
-         JWT_SECRET,
-         {expiresIn: JWT_EXPIRATION_TIME});
+    // sacar esta funcion fuera
+    const token = generateToken({userId: newUser.id, email: newUser.email});
 
     return reply.code(201).send({
         success: true,
@@ -49,7 +45,7 @@ export const loginHandler = async (request: FastifyRequest<{Body: LoginSchemaTyp
         })
     }
 
-    const isPasswordValid = await bcrypt.compare(password, existingUser.password);
+    const isPasswordValid = await comparePassword(password, existingUser.password);
 
     if(!isPasswordValid){
         return reply.status(401).send({
@@ -59,10 +55,7 @@ export const loginHandler = async (request: FastifyRequest<{Body: LoginSchemaTyp
     }
 
     //generamos token
-        const token = jwt.sign(
-        {userId: existingUser.id, email: existingUser.email},
-         JWT_SECRET,
-         {expiresIn: JWT_EXPIRATION_TIME});
+        const token = generateToken({userId: existingUser.id, email: existingUser.email});
 
     //devolvemos token
     return reply.code(200).send({
