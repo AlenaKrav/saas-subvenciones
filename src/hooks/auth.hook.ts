@@ -4,11 +4,11 @@ import { verifyToken } from "../services/auth.jwt";
 
 //Extendemos el objeto Fastify Request para que tenga una propiedad adicional - user
 // además tipamos request.user de la siguente forma
-declare module 'fastify' {
-    interface FastifyRequest {
-        user?: JWTPayloadSchemaType
-    }
-}
+// declare module 'fastify' {
+//     interface FastifyRequest {
+//         user?: JWTPayloadSchemaType
+//     }
+// }
 
 export async function authenticate(request: FastifyRequest, reply: FastifyReply ){
     //obtenemos el token

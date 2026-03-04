@@ -2,7 +2,8 @@
 import fastify, { type FastifyInstance } from "fastify";
 import UserRoutes from "./routes/user.routes";
 import ProductRoutes from "./routes/product.routes";
-import AuthRoutes from "./routes/auth.routes"
+import AuthRoutes from "./routes/auth.routes";
+import authMsalRoutes from "./routes/auth.msal.routes";
 import { ZodTypeProvider, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
 
 
@@ -22,5 +23,5 @@ const app: FastifyInstance = fastify({ logger: true })
 app.register(UserRoutes, {prefix: '/users'});
 app.register(ProductRoutes, {prefix: '/products'});
 app.register(AuthRoutes, {prefix: '/auth'})
-
+app.register(authMsalRoutes, { prefix: '/auth/msal' });
 export default app;
