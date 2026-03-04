@@ -26,3 +26,10 @@ model Product {
   name String
   description String
 }
+
+model MsalUser {
+  id    String  @id @default(cuid())
+  azureID String @unique
+  name  String
+  email String
+}

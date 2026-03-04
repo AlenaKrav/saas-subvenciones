@@ -31,3 +31,18 @@ export async function deleteUser(id: string){
         where: {id},
     })
 }
+
+export async function createMsalUser(azureID: string, name: string, email:string ) {
+    return prisma.msalUser.create({
+        data: {id: uuid(), azureID, name, email }
+    })
+}
+
+
+export async function getMsalUser(azureID: string){
+    return prisma.msalUser.findUnique({
+        where:{
+            azureID,
+        }
+    })
+}

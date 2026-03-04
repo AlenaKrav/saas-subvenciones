@@ -2,6 +2,7 @@ import { ConfidentialClientApplication } from '@azure/msal-node';
 import { msalConfig } from "../config/msal.config";
 import { FastifyRequest, FastifyReply } from "fastify";
 import { CallBackQuerySchemaType } from "../schemas/auth.schema";
+import { getMsalUser, createMsalUser } from "../services/user.service";
 
 // Create a MsalClient using the main Microsoft ConfidentialClientApplication class to manage autentication with Azure AD
 // It allows us to manage secrets in more secure way
@@ -77,6 +78,13 @@ export const msalCallbackHandler = async (request: FastifyRequest<{ Querystring:
 };
 
 export const msalMeHandler = async (request: FastifyRequest, reply: FastifyReply) => {
+    const{userId, name, email} = request.user;
+    let user = await getMsalUser(userId);
+
+    if(!user) {
+        user = await createMsalUser(userId, name, email);
+    }
+
     return reply.code(200).send({
         success: true,
         data: request.user
