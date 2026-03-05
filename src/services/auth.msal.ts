@@ -43,7 +43,7 @@ export async function verifyMsalToken(token: string): Promise<{
         const publicKey = await getSignInKey(decoded.header.kid!);
         // Verify our token using Microsoft public key
         const verified = jwt.verify(token, publicKey, {
-            // Verify if token was emitted for our aplication
+            // Verify if token was emitted for our aplication, comparing our clienId with aud value of the token
             audience: AZURE_CLIENT_ID,
             // Verify if token was emitted by our specific Tenant
             issuer: `https://login.microsoftonline.com/${process.env.AZURE_TENANT_ID}/v2.0`

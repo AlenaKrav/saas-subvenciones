@@ -10,6 +10,7 @@ const msalClient = new ConfidentialClientApplication(msalConfig);
 
 // Reperesents URI where User will be redirected after successfull login
 const REDIRECT_URI = process.env.AZURE_REDIRECT_URI!;
+// Our custom scope that is requiered to create tokens and verify Microsoft tokens
 const SCOPES = [process.env.AZURE_SCOPE!];
 
 export const msalLoginHandler = async (_request: FastifyRequest, reply: FastifyReply) => {
