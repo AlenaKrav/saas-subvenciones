@@ -28,7 +28,7 @@ export const SuccessAuthResponseSchema = Type.Object({
 });
 
 export const FailAuthResponseSchema = Type.Object({
-    success: Type.Boolean(),
+    success: Type.Boolean(), //success: Type.Literal(false),
     error: Type.String()
 })
 

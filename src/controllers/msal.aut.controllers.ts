@@ -10,7 +10,7 @@ const msalClient = new ConfidentialClientApplication(msalConfig);
 
 // Reperesents URI where User will be redirected after successfull login
 const REDIRECT_URI = process.env.AZURE_REDIRECT_URI!;
-const SCOPES = ['api://cd57f103-8e57-4910-a0c2-2ee98cf75006/access_as_user'];
+const SCOPES = [process.env.AZURE_SCOPE!];
 
 export const msalLoginHandler = async (_request: FastifyRequest, reply: FastifyReply) => {
     // Parameters that will be used to generate authorization/login URL
