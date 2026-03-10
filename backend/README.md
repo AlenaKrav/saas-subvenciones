@@ -95,3 +95,19 @@ Our custom hook that implements Auth MSAL Service logic, and its used to protect
 ## Authentication Flow
 
 ![MSAL Authentication Flow](docs/Authentication%20Flow%20Backend%20(Fastify)MSAL.png)
+
+# Guide to verify the flow functionality (using Postman)
+1. Create a new HTTP request
+**GET http://localhost:8080/auth/msal/login*
+2. As response the request should return you a **loginUrl**
+3. Copy it and paste it in browser
+4. Now you should see a login panel
+5. Introduce your Microsoft credentials
+6. If your credentials are correct (your user should belongs to your app tenant), the login process should return you a token.
+7. Copy this token
+8. Go back to postman and create a new HTTP request: 
+**GET http://localhost:8080/auth/msal/me*
+9. Inside "Authorization" tab and in "Auth Type" section select the option "Bearer"
+10. Paste your token into the "Token" field
+11. Send the request
+12. If everything is workig right you should see information about your User
