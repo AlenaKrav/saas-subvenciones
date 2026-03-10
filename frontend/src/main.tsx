@@ -7,14 +7,16 @@ import { PublicClientApplication } from "@azure/msal-browser";
 import { msalConfig } from './config/msalConfig.ts';
 
 // Create a central instance of MSAL Browser with our specific configuration
-// It will allow us to carry out: login, token managing,  logout etc
+// It will allow us to carry out: login, token managing, logout etc
 const msalInstance = new PublicClientApplication(msalConfig);
-
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    {/* MsalProvider is React Context Provider that allows our SPA to use MSAL with React Hooks and it injects in entire React App */}
-    <MsalProvider instance={msalInstance}>
-    <App />
-    </MsalProvider>
-  </StrictMode>,
-)
+// Use initilize with msalInstance to ensure that its ready and after we start rendering with React
+// It allows us to load cache, accounts, pending redirects and avoid some bugs
+msalInstance.initialize().then(() => {
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <MsalProvider instance={msalInstance}>
+        <App />
+      </MsalProvider>
+    </StrictMode>
+  )
+})
