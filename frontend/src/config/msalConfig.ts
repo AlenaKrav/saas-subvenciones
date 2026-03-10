@@ -1,5 +1,5 @@
 // Defines main configuration of MSAL Browser for our React App
-import { type Configuration, type PopupRequest } from "@azure/msal-browser";
+import { type Configuration, type RedirectRequest } from "@azure/msal-browser";
 
 export const msalConfig: Configuration = {
     auth: {
@@ -13,6 +13,6 @@ export const msalConfig: Configuration = {
 };
 
 // Define scopes that will be required
-export const loginRequest: PopupRequest = {
+export const loginRequest: RedirectRequest = {
     scopes: [import.meta.env.VITE_AZURE_SCOPE!]
 };
