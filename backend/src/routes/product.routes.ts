@@ -3,11 +3,13 @@ import { getAllProductsHandler, getProductHandler, createProductHandler, updateP
 import { Product, ProductParams, CreateProduct, UpdateProduct, ProductType, ProuctParamsType, CreateProductType, UpdateProductType } from "../schemas/product.schema";
 import { Type } from "@sinclair/typebox";
 import { authenticate } from "../hooks/auth.hook";
+import { authenticateMsal } from '../hooks/auth.msal.hook';
+
 // import {z} from 'zod';
 
 export default async function ProductRoutes (fastify: FastifyInstance) {
     fastify.get<{Reply: ProductType []}>('/', {
-        onRequest: [authenticate],
+        onRequest: [authenticateMsal],
         schema: {
             response: {
                 200: Type.Array(Product)
@@ -16,7 +18,7 @@ export default async function ProductRoutes (fastify: FastifyInstance) {
     }, getAllProductsHandler);
 
     fastify.post<{Body: CreateProductType, Reply: ProductType}>('/', {
-        onRequest: [authenticate],
+        onRequest: [authenticateMsal],
         schema: {
             body: CreateProduct,
             response: {
@@ -26,7 +28,7 @@ export default async function ProductRoutes (fastify: FastifyInstance) {
     }, createProductHandler);
 
     fastify.get<{Params: ProuctParamsType, Reply: ProductType}>('/:id', {
-        onRequest: [authenticate],
+        onRequest: [authenticateMsal],
         schema: {
             params: ProductParams,
             response: {
@@ -36,7 +38,7 @@ export default async function ProductRoutes (fastify: FastifyInstance) {
     }, getProductHandler);
 
     fastify.patch<{Params: ProuctParamsType, Body: UpdateProductType, reply: ProductType}>('/:id', {
-        onRequest: [authenticate],
+        onRequest: [authenticateMsal],
         schema: {
             params: ProductParams,
             body: UpdateProduct,
@@ -48,7 +50,7 @@ export default async function ProductRoutes (fastify: FastifyInstance) {
 
 
     fastify.delete<{Params: ProuctParamsType }>('/:id', {
-        onRequest: [authenticate],
+        onRequest: [authenticateMsal],
         schema: {
             params: ProductParams,
         }

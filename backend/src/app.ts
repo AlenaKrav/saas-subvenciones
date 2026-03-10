@@ -1,25 +1,35 @@
-// importamos el tipo para TS
+// Import types for TS
 import fastify, { type FastifyInstance } from "fastify";
 import UserRoutes from "./routes/user.routes";
 import ProductRoutes from "./routes/product.routes";
 import AuthRoutes from "./routes/auth.routes";
 import authMsalRoutes from "./routes/auth.msal.routes";
 import { ZodTypeProvider, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
+import cors from '@fastify/cors'; // Specific fastify plugin than allows us to send CORS headers
 
 
+// If we want to user ZOD instead of TYPEBOX we should to the following:
+// 1. use type provider on App level
+// 2. explicitly use its compiler, because Fastify uses AJV for validation as default option
+// 3. explicitly use its serializer, because Fastify uses fast-json-stringify as default option
 
-// Si queremos usar ZOD en vez de TYPEBOX, debemos:
-// 1. usar su provider de tipos a nivel de app
-// 2. usar explicitamente su compilador, ya que fastify usa por defecto AJV para validar
-// 3. usar explicitamente su serializador, ya que fastify usa fast-json-stringify por defecto
-// Lo suyo no mezclar typebox con zod, typebox genera un json schema automaticamente que fastify usa, mientras que Zod genera su ppio schema
+// Its important not to mix TYPEBOX and ZOD in the same project
+// Remember: TYPEBOX generates a JSON schema that fastify uses automatically, whereas ZOD generates its own schema format
+
 // const app = fastify({ logger: true }).withTypeProvider<ZodTypeProvider>();
 // app.setValidatorCompiler(validatorCompiler);
 // app.setSerializerCompiler(serializerCompiler);
 
-// creamos el servidor, activando el log en la consola
+// create the server, activating logging in our console
 const app: FastifyInstance = fastify({ logger: true })
-// se "monta/instala" el plugin (funcion que se encarga de enrutamiento) bajo el prefijo /users
+
+// register cors plugin, that will add CORS headers automatically
+app.register(cors, {
+    origin: 'http://localhost:5173',
+    credentials: true //allow sending credentials between backend and frontend
+});
+
+// "installing" the plugin (function in charge of routing) with /users prefix
 app.register(UserRoutes, {prefix: '/users'});
 app.register(ProductRoutes, {prefix: '/products'});
 app.register(AuthRoutes, {prefix: '/auth'})

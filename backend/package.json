@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@azure/msal-node": "^5.0.5",
+    "@fastify/cors": "^11.2.0",
     "@fastify/type-provider-typebox": "^6.1.0",
     "@prisma/adapter-pg": "^7.4.0",
     "@prisma/client": "^7.4.0",
