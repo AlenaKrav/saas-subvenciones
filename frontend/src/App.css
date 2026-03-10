@@ -40,3 +40,59 @@
 .read-the-docs {
   color: #888;
 }
+
+.app-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.auth-box {
+  border: 2px solid #ff6b6b;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.auth-box.logged-in {
+  border-color: #51cf66;
+}
+
+
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+}
+
+.btn-login { 
+  background-color: #0078d4; 
+}
+
+.btn-logout { 
+  background-color: #ff6b6b; 
+}
+
+.btn-check { 
+  background-color: #51cf66; 
+}
+
+.btn-products { 
+  background-color: #000080; 
+}
+
+.info-box {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.flex-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
