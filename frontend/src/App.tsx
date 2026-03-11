@@ -3,6 +3,7 @@ import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal, useIsAuthentic
 import { loginRequest } from './config/msalConfig';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { InteractionRequiredAuthError } from '@azure/msal-browser';
 
 
 interface UserInfo {
@@ -73,9 +74,15 @@ function App() {
                 }
             });
             setUserInfo(result.data);
-            setLoading(false);
+
         } catch (error) {
+            if (error instanceof InteractionRequiredAuthError) { //In case MSAL failed silently refresh token, it will throw this type of Erro
+                await instance.loginRedirect(loginRequest); //We catch it and request user to login again
+            }
             console.error('Error obtaining user info:', error);
+        }
+        finally {
+            setLoading(false); //Independently if everything went ok or not, we desactivate the Loader
         }
     };
 
@@ -94,9 +101,14 @@ function App() {
                 }
             });
             setProducts(result.data);
-            setLoading(false);
         } catch (error) {
+            if(error instanceof InteractionRequiredAuthError){
+                await instance.loginRedirect(loginRequest);
+            }
             console.error('Error obtaining products:', error);
+        }
+        finally {
+            setLoading(false);
         }
     };
 
@@ -111,7 +123,7 @@ function App() {
                 <div className="auth-box">
                     <h2>You are not logged in</h2>
                     <p>State: {inProgress}</p>
-                    
+
                     <button
                         className="btn btn-login"
                         onClick={handleLogin}
