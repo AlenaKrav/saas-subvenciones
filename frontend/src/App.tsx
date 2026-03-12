@@ -2,8 +2,8 @@ import '../src/App.css';
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest } from './config/msalConfig';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { InteractionRequiredAuthError } from '@azure/msal-browser';
+import { getMe, getProducts } from './services/api';
 
 
 interface UserInfo {
@@ -63,16 +63,7 @@ function App() {
     const fetchMe = async () => {
         try {
             setLoading(true);
-            const response = await instance.acquireTokenSilent({
-                ...loginRequest,
-                account: accounts[0]
-            });
-            //get protected route
-            const result = await axios.get(`${import.meta.env.VITE_API_URL}/auth/msal/me`, {
-                headers: {
-                    'Authorization': `Bearer ${response.accessToken}`
-                }
-            });
+            const result = await getMe();
             setUserInfo(result.data);
 
         } catch (error) {
@@ -90,19 +81,10 @@ function App() {
     const fetchProducts = async () => {
         try {
             setLoading(true);
-            const response = await instance.acquireTokenSilent({
-                ...loginRequest,
-                account: accounts[0]
-            });
-
-            const result = await axios.get(`${import.meta.env.VITE_API_URL}/products`, {
-                headers: {
-                    'Authorization': `Bearer ${response.accessToken}`
-                }
-            });
+            const result = await getProducts();
             setProducts(result.data);
         } catch (error) {
-            if(error instanceof InteractionRequiredAuthError){
+            if (error instanceof InteractionRequiredAuthError) {
                 await instance.loginRedirect(loginRequest);
             }
             console.error('Error obtaining products:', error);
