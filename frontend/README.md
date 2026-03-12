@@ -198,3 +198,9 @@ app.register(cors, {
 1. "Check protected user info" - will return userId of your Microsoft Account (protected backend route /auth/msal/me)
 2. "Get products" - will return you all products from our database in JSON format (protected backend route /products)
 - In order to logout, click the "Logout" button.
+
+## Authentication Flows
+[Case 1 -  Initial App Load](docs/Authentication%20Flow%20Frontend%20(React)%20-%20Backend%20(Fastify)%20-%20Case-1.png)
+[Case 2 - User Logs In](docs/Authentication%20Flow%20Frontend%20(React)%20-%20Backend%20(Fastify)%20-%20Case-2.png)
+[Case 3 - User retrieves info from protected routes](docs/Authentication%20Flow%20Frontend%20(React)%20-%20Backend%20(Fastify)%20-%20%20Case-3.png)
+[Case 4 - User logs out](docs/Authentication%20Flow%20Frontend%20(React)%20-%20Backend%20(Fastify)%20-%20%20Case-4.png)
