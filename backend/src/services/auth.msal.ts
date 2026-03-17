@@ -1,13 +1,15 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import jwksClient from 'jwks-rsa';
 
-const AZURE_TENANT_ID = process.env.AZURE_TENANT_ID!;
 const AZURE_CLIENT_ID = process.env.AZURE_CLIENT_ID!;
+const AZURE_JWKS_URI = process.env.AZURE_JWKS_URI!;
+const AZURE_ISSUER = process.env.AZURE_ISSUER!
+
 
 // Function to create a client to download Microsfot public keys
 const client = jwksClient({
     //The URL relatedd to our where Microsoft publish its public keys
-    jwksUri: `https://login.microsoftonline.com/${AZURE_TENANT_ID}/discovery/v2.0/keys`,
+    jwksUri: AZURE_JWKS_URI,
     cache: true,
     cacheMaxAge: 86400000,
 });
@@ -46,7 +48,8 @@ export async function verifyMsalToken(token: string): Promise<{
             // Verify if token was emitted for our aplication, comparing our clienId with aud value of the token
             audience: AZURE_CLIENT_ID,
             // Verify if token was emitted by our specific Tenant
-            issuer: `https://login.microsoftonline.com/${process.env.AZURE_TENANT_ID}/v2.0`
+            issuer: AZURE_ISSUER,
+            algorithms: ['RS256']
         }) as JwtPayload;
 
         return {
