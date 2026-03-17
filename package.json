@@ -8,8 +8,14 @@
   ],
   "scripts": {
     "dev": "concurrently \"npm run dev -w backend\" \"npm run dev -w frontend\"",
+    "dev:backend": "npm run dev -w backend",
+    "dev:frontend": "npm run dev -w frontend",
     "build": "npm run build --workspaces --if-present",
-    "start": "concurrently \"npm run start -w backend\" \"npm run start -w frontend\""
+    "build:backend": "npm run build -w backend",
+    "build:frontend": "npm run build -w frontend",
+    "start": "concurrently \"npm run start -w backend\" \"npm run start -w frontend\"",
+    "start:backend": "npm run start -w backend",
+    "start:frontend": "npm run start -w frontend"
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
