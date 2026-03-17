@@ -6,7 +6,8 @@ const start = async() => {
     // Se supone que no es necesario ya que prisma se conecta con la 1º query que lancemos, pero asi nos aseguramos de que la BD esté lista
     await prisma.$connect();
     console.log("Prisma is running")
-    app.listen({port: 8080})
+    const port = parseInt(process.env.PORT || '8080', 10);
+    app.listen({ port, host: '0.0.0.0' })
     }
     catch (error){
         console.log(error);
