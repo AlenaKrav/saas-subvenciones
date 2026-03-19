@@ -1,11 +1,17 @@
-import { Outlet, createRootRoute } from '@tanstack/react-router';
+import { Outlet, createRootRouteWithContext } from '@tanstack/react-router';
+import type { InteractionStatus } from '@azure/msal-browser';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { useMsal } from '@azure/msal-react';
 import { useEffect } from 'react';
 
-export const Route = createRootRoute({
+export interface RouterContext {
+  isAuthenticated: boolean;
+  inProgress: InteractionStatus;
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootComponent,
-});
+})
 
 function RootComponent() {
   const { instance } = useMsal();

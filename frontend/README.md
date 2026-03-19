@@ -224,3 +224,29 @@ Once MSAL finishes:
 Implemented solution:
 - wait until MSAL reaches a stable state before checking authentication
 - temporary approach: use the inProgress value from the useMsal hook in all our routes, allowing redirects when inProgress === "none" (authentication process completed).
+
+# beforeLoad Guard Implementation:
+- acts like a middleware
+- executes before a route render its component
+- receives **context** define wehn creating the router
+- Requires createRootRouteWithContext:
+   - The root route must be created with createRootRouteWithContext<RouterContext>() to define the context.
+   - This enables all child routes to access a typed context in beforeLoad.
+- in our case **context** contains MSAL auth and progress state
+- stops execution wiht **throw redirect()**, cancelling immediately navigation and redirecting the user
+- using **inProgress** we ensure that guars wont't redirect the user while authentication is still in process
+
+# Authentication flow with TanStack Router (+ Route Guards):
+1. User navigates to a protected route (/ = dashboard)
+2. beforeLoad executes with the router context:
+ - Checks inProgress from MSAL:
+If not 'none', returns early → avoids premature redirect.
+- Calls guard function (requireAuth or requireGuest).
+If guard fails → throw redirect() → cancels navigation ande redirects.
+3. Component renders after passing guards:
+- shows <LoadingScreen /> if MSAL is still processing.
+- <Navigate to /> if user is already authenticated and tries to access login page.
+4. Context is updated dynamically:
+- RouterProvider passes the latest isAuthenticated and inProgress from MSAL global instance.
+- All children routes see updated context automatically.
+   

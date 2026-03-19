@@ -2,9 +2,14 @@ import { createFileRoute, Navigate } from '@tanstack/react-router'
 import ProductsPage from '../components/ProductsPage'
 import { useIsAuthenticated } from '@azure/msal-react';
 import { useMsal } from "@azure/msal-react";
+import { requireAuth } from '../auth/routeGuards';
+import  LoadingScreen from '../components/LoadingScreen';
 
 
 export const Route = createFileRoute('/products')({
+      beforeLoad: ({context}) => {
+        requireAuth(context);
+    },
   component: ProductComponent,
 })
 
@@ -13,7 +18,7 @@ function ProductComponent() {
   const { inProgress } = useMsal();
 
   if (inProgress !== 'none') {
-    return <div>Loading...</div>;
+    return <LoadingScreen />
   }
 
   if (!isAuthenticated) {
