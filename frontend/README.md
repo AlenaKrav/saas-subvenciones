@@ -204,3 +204,23 @@ app.register(cors, {
 [Case 2 - User Logs In](docs/Authentication%20Flow%20Frontend%20(React)%20-%20Backend%20(Fastify)%20-%20Case-2.png)
 [Case 3 - User retrieves info from protected routes](docs/Authentication%20Flow%20Frontend%20(React)%20-%20Backend%20(Fastify)%20-%20%20Case-3.png)
 [Case 4 - User logs out](docs/Authentication%20Flow%20Frontend%20(React)%20-%20Backend%20(Fastify)%20-%20%20Case-4.png)
+
+
+# Problem Solving
+1. Unexpected redirect after a succesfull Login
+After a successful login, the app briefly redirects us to /login before navigating to / (dashboard).
+
+Problem origin:
+- MSAL handles authentication asynchronously
+- React renders the app before MSAL finishes processing the authentication
+During this moment:
+- isAuthenticated is temporarily false
+- The app "thinks" that the user is not authenticated
+- The router redirects us to /login
+Once MSAL finishes:
+- Authentication state updates (isAuthenticated) to true
+- The app now redirects us to /
+
+Implemented solution:
+- wait until MSAL reaches a stable state before checking authentication
+- temporary approach: use the inProgress value from the useMsal hook in all our routes, allowing redirects when inProgress === "none" (authentication process completed).

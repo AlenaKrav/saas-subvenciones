@@ -81,9 +81,12 @@
 .btn-products { 
   background-color: #000080; 
 }
+.btn-navigate{
+  background-color: #7d0d3c; 
+}
 
 .info-box {
-  background-color: #f0f0f0;
+  /* background-color: #f0f0f0; */
   padding: 15px;
   border-radius: 4px;
   margin-bottom: 20px;
