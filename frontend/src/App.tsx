@@ -1,4 +1,4 @@
-import '../src/App.css';
+// import '../src/App.css';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
 import { useIsAuthenticated, useMsal } from '@azure/msal-react';
@@ -26,6 +26,8 @@ function App() {
   // Provide global context of our router
     return <RouterProvider 
     router={router}
-    context={{isAuthenticated, inProgress }} />;
+    context={{isAuthenticated, inProgress }} 
+    />;
+    
 }
 export default App;
