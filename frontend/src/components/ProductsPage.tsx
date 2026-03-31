@@ -48,7 +48,7 @@ export default function ProductsPage() {
                 )}
 
                 <div className="flex-row" style={{ marginTop: '1rem' }}>
-                    <Link to="/" className="btn btn-navigate">
+                    <Link to="/dashboard" className="btn btn-navigate">
                         Go to Dashboard
                     </Link>
                 </div>

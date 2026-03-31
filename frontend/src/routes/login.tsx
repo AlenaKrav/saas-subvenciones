@@ -20,7 +20,7 @@ function LoginComponent() {
     }
 
     if (isAuthenticated) {
-        return <Navigate to="/" />;
+        return <Navigate to="/dashboard" />;
     }
     return <LoginPage />;
 }

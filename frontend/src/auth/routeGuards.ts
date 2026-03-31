@@ -18,7 +18,7 @@ export function requireGuest(context: RouterContext) {
     };
     if (context.isAuthenticated) {
         throw redirect({
-            to: '/'
+            to: '/dashboard'
         });
     };
 };

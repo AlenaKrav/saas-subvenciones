@@ -51,7 +51,7 @@ export default function DashboardPage() {
 
 
     return (
-        <div className="app-container">
+        <div className="min-h-screen flex-1 rounded-xl bg-muted/50 md:min-h-min">
             <h1>Dashboard</h1>
             <div className="auth-box logged-in">
                 <h2>Now you are logged in!</h2>
