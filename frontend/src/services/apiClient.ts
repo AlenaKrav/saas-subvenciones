@@ -16,11 +16,11 @@ export const setupInterceptors = (msalInstance: PublicClientApplication) => {
         // 1º callback function that receives config object
         async (config) => {
             try {
-                const accounts = msalInstance.getAllAccounts();
-                if (accounts.length > 0) {
+                const account = msalInstance.getActiveAccount();
+                if (account) {
                     const tokenResponse = await msalInstance.acquireTokenSilent({
                         ...loginRequest,
-                        account: accounts[0]
+                        account: account
                     });
                     // Modify config object including header
                     config.headers.Authorization = `Bearer ${tokenResponse.accessToken}`;
