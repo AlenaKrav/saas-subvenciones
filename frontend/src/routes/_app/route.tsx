@@ -7,7 +7,6 @@ import { requireAuth } from '../../auth/routeGuards';
 import LoadingScreen from '../../components/LoadingScreen';
 import { TooltipProvider } from "@/components/ui/tooltip"
 
-
 import { AppSidebar } from "@/components/app-sidebar"
 import {
   Breadcrumb,
@@ -23,11 +22,12 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { Button } from '@/components/ui/button';
 
 
 
 
-export const Route = createFileRoute('/dashboard')({
+export const Route = createFileRoute('/_app')({
   component: DashboardLayout,
   beforeLoad: ({ context }) => {
     requireAuth(context);
@@ -76,7 +76,13 @@ function DashboardLayout() {
           </header>
           <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
             <div className="grid auto-rows-min gap-4 md:grid-cols-2">
-              <div className="aspect-video rounded-xl bg-muted/50" />
+              <div className="aspect-video rounded-xl bg-muted/50">
+              <Button
+                className="w-auto mt-2"
+                    variant="primary"
+                    size="xl"
+                    disabled={inProgress !== 'none'}>Ir a productos</Button>
+                    </div>
               <div className="aspect-video rounded-xl bg-muted/50" />
               {/* <div className="aspect-video rounded-xl bg-muted/50" /> */}
             </div>

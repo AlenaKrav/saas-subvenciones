@@ -1,27 +1,9 @@
-import { createFileRoute, Navigate } from '@tanstack/react-router';
-import { useIsAuthenticated } from '@azure/msal-react';
-import { useMsal } from "@azure/msal-react";
-import DashboardPage from '../components/DashboardPage';
-import { requireAuth } from '../auth/routeGuards';
-import  LoadingScreen from '../components/LoadingScreen';
+import { createFileRoute, Navigate } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({
-    beforeLoad: ({ context }) => {
-        requireAuth(context);
-    },
-    component: DashboardComponent,
-});
+  component: IndexRedirect,
+})
 
-function DashboardComponent() {
-    const { inProgress } = useMsal();
-    const isAuthenticated = useIsAuthenticated();
-
-    if (inProgress !== 'none') {
-        return <LoadingScreen />
-    }
-
-    if (!isAuthenticated) {
-        return <Navigate to="/login" />;
-    }
-    return <DashboardPage />;
+function IndexRedirect() {
+  return <Navigate to="/dashboard" />
 }
