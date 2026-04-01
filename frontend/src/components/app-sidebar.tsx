@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/sidebar"
 import { LayoutDashboard, Form } from "lucide-react"
 import { useMsal } from "@azure/msal-react"
-import { ModeToggle } from "./mode-toggle"
 
 
 const data = {
@@ -71,7 +70,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher team={data.team} />
-        <ModeToggle/>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
