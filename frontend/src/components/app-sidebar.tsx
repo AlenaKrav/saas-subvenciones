@@ -36,7 +36,7 @@ const data = {
     },
     {
       title: "Formularios de adecuación",
-      url: "/products",
+      url: "/formulario",
       icon: (
         <Form
         />

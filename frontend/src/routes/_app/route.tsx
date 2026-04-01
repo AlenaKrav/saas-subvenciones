@@ -1,11 +1,11 @@
 //General dashboard layout
 
-import { createFileRoute, Outlet, Navigate } from '@tanstack/react-router';
+import { createFileRoute, Outlet, Navigate, Link } from '@tanstack/react-router';
 import { useIsAuthenticated } from '@azure/msal-react';
 import { useMsal } from "@azure/msal-react";
 import { requireAuth } from '../../auth/routeGuards';
 import LoadingScreen from '../../components/LoadingScreen';
-import { TooltipProvider } from "@/components/ui/tooltip"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 import { AppSidebar } from "@/components/app-sidebar"
 import {
@@ -50,7 +50,7 @@ function DashboardLayout() {
     <TooltipProvider>
       <SidebarProvider>
         {/* Imports appsidebar component */}
-        <AppSidebar /> 
+        <AppSidebar />
         <SidebarInset>
           <header className="flex h-16 shrink-0 items-center justify-between px-4 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
             <div className="flex items-center gap-2 px-4">
@@ -62,35 +62,57 @@ function DashboardLayout() {
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="#">
-                      Build Your Application
+                    <BreadcrumbLink href="/dashboard">
+                      Dashboard
                     </BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator className="hidden md:block" />
                   <BreadcrumbItem>
-                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                    <BreadcrumbPage>Formularios</BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
             </div>
-  <div className="flex items-center gap-2">
-    <ModeToggle />
-  </div>
+            <Tooltip>
+              <TooltipTrigger>
+                            <div className="flex items-center gap-2">
+              <ModeToggle />
+            </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                Cambiar tema
+              </TooltipContent>
+            </Tooltip>
+
           </header>
           <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
             <div className="grid auto-rows-min gap-4 md:grid-cols-2">
-              <div className="aspect-video rounded-xl bg-muted/50">
-              <Button
-                className="w-auto mt-2"
-                    variant="primary"
-                    size="xl"
-                    disabled={inProgress !== 'none'}>Ir a productos</Button>
-                    </div>
-              <div className="aspect-video rounded-xl bg-muted/50" />
+              {/* TO DO: hacer que sea un componente aparte */}
+              <div className="aspect-video rounded-xl bg-muted/50 flex items-center justify-center">
+              <Link to="/products">
+                <Button
+                  className="w-auto mt-2"
+                  variant="primary"
+                  size="xl"
+                  disabled={inProgress !== 'none'}>Ir a productos</Button>
+                  </Link>
+              </div>
+              <div className="aspect-video rounded-xl bg-muted/50 flex items-center justify-center">
+              <Link to="/formulario">
+                            <Button
+                  className="w-auto mt-2"
+                  variant="primary"
+                  size="xl"
+                  disabled={inProgress !== 'none'}>Ir a formulario</Button>
+                  </Link>
+              </div>
+              
+
+              
               {/* <div className="aspect-video rounded-xl bg-muted/50" /> */}
             </div>
             {/* Our custom Dashboard component */}
-            <Outlet /> 
+            <Outlet />
           </div>
         </SidebarInset>
       </SidebarProvider>

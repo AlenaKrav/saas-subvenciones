@@ -2,11 +2,10 @@ import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem
 } from "@/components/ui/sidebar"
 
-import { Link } from '@tanstack/react-router'
+import { SidebarLink } from '@/components/CustomSidebarLink';
 
 export function NavMain({
   items,
@@ -30,16 +29,14 @@ export function NavMain({
 
           return (
             <SidebarMenuItem key={item.url}>
-              <SidebarMenuButton
-                asChild
-                className={isActive ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''}
+              <SidebarLink
+                to={item.url}
                 tooltip={item.title}
+                className="flex items-center gap-2"
               >
-                <Link to={item.url} className="flex items-center gap-2">
-                  {item.icon}
-                  <span>{item.title}</span>
-                </Link>
-              </SidebarMenuButton>
+                {item.icon}
+                <span>{item.title}</span>
+              </SidebarLink>
             </SidebarMenuItem>
           )
         })}
