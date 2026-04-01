@@ -2,9 +2,10 @@
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
 import { useIsAuthenticated, useMsal } from '@azure/msal-react';
+import { ThemeProvider } from "@/components/theme-provider"
 
 // Create Router Instance
-const router = createRouter({ 
+const router = createRouter({
   routeTree, //use automatically generated route tree
   defaultPreload: 'intent', //preload data if user shows intent to navigate (mouse over a link, focus) = instant navigation
   context: {
@@ -23,11 +24,14 @@ declare module '@tanstack/react-router' {
 function App() {
   const isAuthenticated = useIsAuthenticated();
   const { inProgress } = useMsal();
-  // Provide global context of our router
-    return <RouterProvider 
-    router={router}
-    context={{isAuthenticated, inProgress }} 
-    />;
-    
+  {/* Provide global context of our router */ }
+  return (
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <RouterProvider
+        router={router}
+        context={{ isAuthenticated, inProgress }}
+      />
+    </ThemeProvider>
+  )
 }
 export default App;
