@@ -1,12 +1,8 @@
 import { useState } from 'react';
 import { useForm } from "@tanstack/react-form"
 import { uploadSchema } from "@/schemas/uploadSchema"
-import axios from 'axios';
 import { useRef } from 'react';
-
-
-
-
+import { uploadFile } from '../services/api';
 
 import { Button } from "@/components/ui/button"
 import {
@@ -53,21 +49,17 @@ export default function UploadFormPage() {
                     formData.append('file', value.file[0]);
                 }
 
-                const response = await axios.post('https://n8n.pixelinlove.net/webhook-test/57b34d34-ec07-4b97-824b-778ec755b35a',
-                    formData,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                        },
-                        responseType: 'blob',
-                    }
-                );
+                const response = await uploadFile(formData);
 
-                const url = URL.createObjectURL(response.data);
+                const blob = new Blob([response.data], {
+                    type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                });
+
+                const url = window.URL.createObjectURL(blob);
                 setDownloadUrl(url);
 
                 console.log('Fomrulario enviado correctamente');
-                toast.success('Formulario enviado correctamente');
+                toast.success('Cuestionario generado correctamente');
                 form.reset();
 
                 if (fileInputRef.current) {
@@ -165,20 +157,7 @@ export default function UploadFormPage() {
                             </form.Field>
                         </FieldGroup>
                     </form>
-                              {downloadUrl && (
-            <div className="mt-6 text-center">
-              <p className="text-green-600 font-medium mb-2">
-                ¡Documento generado correctamente!
-              </p>
-              <a
-                href={downloadUrl}
-                download="resultado.docx"
-                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
-              >
-                <FileDown className="w-4 h-4" /> Descargar Word
-              </a>
-            </div>
-          )}
+                    
                 </CardContent>
                 <CardFooter>
                     {/* form.Subscribe is special tanstack component, that listens to changes in form
@@ -211,7 +190,7 @@ export default function UploadFormPage() {
                                     {state.isSubmitting ? (
                                         <>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Analizando tu document...
+                                            Analizando...
                                         </>
                                     ) : (
                                         'Enviar'
@@ -221,6 +200,22 @@ export default function UploadFormPage() {
                         )}
                     </form.Subscribe>
                 </CardFooter>
+                {downloadUrl && (
+                        <Card>
+                        <div className="mt-6 text-center">
+                            <p className="text-[#EC842B] text-lg font-semibold mb-2">
+                                ¡Documento generado correctamente!
+                            </p>
+                            <a
+                                href={downloadUrl}
+                                download="resultado.docx"
+                                className="inline-flex items-center gap-2 bg-[#094785] hover:bg-[#03294F] text-white px-4 py-2 font-medium rounded-md"
+                            >
+                                <FileDown className="w-4 h-4" /> Descargar cuestionario
+                            </a>
+                        </div>
+                        </Card>
+                    )}
             </Card>
         </div>
     )

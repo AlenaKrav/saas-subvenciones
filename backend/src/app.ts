@@ -6,6 +6,8 @@ import AuthRoutes from "./routes/auth.routes";
 import authMsalRoutes from "./routes/auth.msal.routes";
 import { ZodTypeProvider, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
 import cors from '@fastify/cors'; // Specific fastify plugin than allows us to send CORS headers
+import fastifyMultipart from "@fastify/multipart"; //enable our server to receive files
+import UploadRoutes from "./routes/upload.routes";
 
 
 // If we want to user ZOD instead of TYPEBOX we should to the following:
@@ -29,9 +31,17 @@ app.register(cors, {
     credentials: true //allow sending credentials between backend and frontend
 });
 
+app.register(fastifyMultipart, {
+    limits: {
+    fileSize: 20 * 1024 * 1024
+    }
+});
+
 // "installing" the plugin (function in charge of routing) with /users prefix
 app.register(UserRoutes, {prefix: '/users'});
 app.register(ProductRoutes, {prefix: '/products'});
 app.register(AuthRoutes, {prefix: '/auth'})
 app.register(authMsalRoutes, { prefix: '/auth/msal' });
+app.register(UploadRoutes, { prefix: '/api' });
+
 export default app;
