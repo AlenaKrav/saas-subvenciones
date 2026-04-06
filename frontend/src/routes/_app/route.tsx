@@ -1,11 +1,12 @@
 //General dashboard layout
 
-import { createFileRoute, Outlet, Navigate, Link } from '@tanstack/react-router';
+import { createFileRoute, Outlet, Navigate } from '@tanstack/react-router';
 import { useIsAuthenticated } from '@azure/msal-react';
 import { useMsal } from "@azure/msal-react";
 import { requireAuth } from '../../auth/routeGuards';
 import LoadingScreen from '../../components/LoadingScreen';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Toaster } from 'sonner';
 
 import { AppSidebar } from "@/components/app-sidebar"
 import {
@@ -22,10 +23,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { Button } from '@/components/ui/button';
 import { ModeToggle } from '@/components/mode-toggle';
-
-
 
 
 export const Route = createFileRoute('/_app')({
@@ -49,6 +47,7 @@ function DashboardLayout() {
   return (
     <TooltipProvider>
       <SidebarProvider>
+        <Toaster position="top-right" richColors />
         {/* Imports appsidebar component */}
         <AppSidebar />
         <SidebarInset>
@@ -75,43 +74,19 @@ function DashboardLayout() {
             </div>
             <Tooltip>
               <TooltipTrigger>
-                            <div className="flex items-center gap-2">
-              <ModeToggle />
-            </div>
+                <div className="flex items-center gap-2">
+                  <ModeToggle />
+                </div>
               </TooltipTrigger>
               <TooltipContent>
                 Cambiar tema
               </TooltipContent>
             </Tooltip>
-
           </header>
           <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
             <div className="grid auto-rows-min gap-4 md:grid-cols-2">
-              {/* TO DO: hacer que sea un componente aparte */}
-              <div className="aspect-video rounded-xl bg-muted/50 flex items-center justify-center">
-              <Link to="/products">
-                <Button
-                  className="w-auto mt-2"
-                  variant="primary"
-                  size="xl"
-                  disabled={inProgress !== 'none'}>Ir a productos</Button>
-                  </Link>
-              </div>
-              <div className="aspect-video rounded-xl bg-muted/50 flex items-center justify-center">
-              <Link to="/formulario">
-                            <Button
-                  className="w-auto mt-2"
-                  variant="primary"
-                  size="xl"
-                  disabled={inProgress !== 'none'}>Ir a formulario</Button>
-                  </Link>
-              </div>
-              
-
-              
-              {/* <div className="aspect-video rounded-xl bg-muted/50" /> */}
             </div>
-            {/* Our custom Dashboard component */}
+            {/* Our custom component */}
             <Outlet />
           </div>
         </SidebarInset>

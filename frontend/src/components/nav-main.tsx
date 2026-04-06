@@ -17,16 +17,12 @@ export function NavMain({
     isActive?: boolean
   }[]
 }) {
-  const currentPath = window.location.pathname
-  console.log(currentPath)
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Panel de administración</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
-          const isActive = currentPath.startsWith(item.url)
-          console.log(isActive)
-
           return (
             <SidebarMenuItem key={item.url}>
               <SidebarLink

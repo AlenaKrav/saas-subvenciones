@@ -25,6 +25,7 @@
     "playwright": "^1.58.2"
   },
   "dependencies": {
+    "@tanstack/react-form": "^1.28.6",
     "@tanstack/react-router": "^1.167.4"
   }
 }
