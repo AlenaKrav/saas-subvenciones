@@ -20,8 +20,9 @@ import {
     FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { FileDown, Loader2, Upload, X, FileText } from 'lucide-react';
+import { Loader2, Upload, X, FileText } from 'lucide-react';
 import { toast } from 'sonner';
+import { DownloadCard } from './DownloadCard';
 
 // with .shape we access a particular key in our form validation schema
 const titleSchema = uploadSchema.shape.title;
@@ -83,7 +84,7 @@ export default function UploadFormPage() {
     };
 
     return (
-        <div className="flex justify-center p-4">
+        <div className="flex flex-col items-center p-4 gap-10">
             <Card className="w-full max-w-md">
                 <CardHeader>
                     <CardTitle>Gestión de formularios</CardTitle>
@@ -251,23 +252,10 @@ export default function UploadFormPage() {
                         )}
                     </form.Subscribe>
                 </CardFooter>
-                {downloadUrl && (
-                    <Card>
-                        <div className="mt-6 text-center">
-                            <p className="text-[#EC842B] text-sm font-semibold mb-2">
-                                ¡Documento generado correctamente!
-                            </p>
-                            <a
-                                href={downloadUrl}
-                                download="resultado.docx"
-                                className="inline-flex items-center gap-2 bg-[#094785] hover:bg-[#03294F] text-white px-4 py-2 font-medium rounded-md"
-                            >
-                                <FileDown className="w-4 h-4" /> Descargar cuestionario
-                            </a>
-                        </div>
-                    </Card>
-                )}
             </Card>
+                            {downloadUrl && (
+                    <DownloadCard downloadUrl={downloadUrl} />
+                )}
         </div>
     )
 }
