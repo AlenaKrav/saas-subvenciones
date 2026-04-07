@@ -7,16 +7,9 @@ import { requireAuth } from '../../auth/routeGuards';
 import LoadingScreen from '../../components/LoadingScreen';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Toaster } from 'sonner';
+import { BreadcrumbNav } from "@/components/BreadcrumbNav.tsx";
 
 import { AppSidebar } from "@/components/app-sidebar"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
 import { Separator } from "@/components/ui/separator"
 import {
   SidebarInset,
@@ -58,7 +51,7 @@ function DashboardLayout() {
                 orientation="vertical"
                 className="mr-2 data-[orientation=vertical]:h-4"
               />
-              <Breadcrumb>
+              {/* <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem className="hidden md:block">
                     <BreadcrumbLink href="/dashboard">
@@ -70,7 +63,8 @@ function DashboardLayout() {
                     <BreadcrumbPage>Formularios</BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
-              </Breadcrumb>
+              </Breadcrumb> */}
+              <BreadcrumbNav />
             </div>
             <Tooltip>
               <TooltipTrigger>

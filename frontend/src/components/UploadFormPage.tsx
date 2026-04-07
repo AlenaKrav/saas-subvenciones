@@ -20,7 +20,7 @@ import {
     FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { FileDown, Loader2 } from 'lucide-react';
+import { FileDown, Loader2, Upload, X, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 
 // with .shape we access a particular key in our form validation schema
@@ -29,6 +29,7 @@ const fileSchema = uploadSchema.shape.file;
 
 
 export default function UploadFormPage() {
+    // used to control file input, as we can't control it completely with React, especially to reset it
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
 
@@ -41,6 +42,7 @@ export default function UploadFormPage() {
             onSubmit: uploadSchema,
         },
         onSubmit: async ({ value }) => {
+            toast.info('Analizando tu archivo... Esto puede tardar unos minutos')
             try {
                 const formData = new FormData();
                 formData.append('title', value.title);
@@ -58,7 +60,7 @@ export default function UploadFormPage() {
                 const url = window.URL.createObjectURL(blob);
                 setDownloadUrl(url);
 
-                console.log('Fomrulario enviado correctamente');
+                console.log('Formulario enviado correctamente');
                 toast.success('Cuestionario generado correctamente');
                 form.reset();
 
@@ -81,12 +83,12 @@ export default function UploadFormPage() {
     };
 
     return (
-        <div className="flex flex-1 items-top justify-center p-4">
-            <Card className="w-full sm:max-w-md">
+        <div className="flex justify-center p-4">
+            <Card className="w-full max-w-md">
                 <CardHeader>
                     <CardTitle>Gestión de formularios</CardTitle>
                     <CardDescription>
-                        Empieza subiendo un PDF con la convocatoria
+                        Empieza subiendo un documento con la convocatoria
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -108,7 +110,7 @@ export default function UploadFormPage() {
                                         field.state.meta.isTouched && !field.state.meta.isValid
                                     return (
                                         <Field data-invalid={isInvalid}>
-                                            <FieldLabel htmlFor={field.name}>Titulo de documento</FieldLabel>
+                                            <FieldLabel htmlFor={field.name}>Título de documento</FieldLabel>
                                             <Input
                                                 id={field.name}
                                                 name={field.name}
@@ -116,7 +118,7 @@ export default function UploadFormPage() {
                                                 onBlur={field.handleBlur}
                                                 onChange={(e) => field.handleChange(e.target.value)}
                                                 aria-invalid={isInvalid}
-                                                placeholder="Titulo descriptivo del documento"
+                                                placeholder="Título descriptivo del documento"
                                                 autoComplete="off"
                                             />
                                             {isInvalid && (
@@ -131,33 +133,82 @@ export default function UploadFormPage() {
                                 validators={{ onChange: fileSchema }}
                             >
                                 {(field) => {
-                                    const isInvalid =
-                                        field.state.meta.isTouched && !field.state.meta.isValid
+                                    const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+                                    const selectedFile = field.state.value?.[0];
+
                                     return (
                                         <Field data-invalid={isInvalid}>
                                             <FieldLabel htmlFor={field.name}>Archivo</FieldLabel>
-                                            <Input
-                                                ref={fileInputRef}
-                                                id={field.name}
-                                                name={field.name}
-                                                type="file"
-                                                accept=".pdf, .doc, .docx"
-                                                onBlur={field.handleBlur}
-                                                onChange={(e) => field.handleChange(e.target.files)}
-                                                aria-invalid={isInvalid}
-                                                placeholder="Sube el documento deseado"
-                                                autoComplete="off"
-                                            />
+
+                                            <div className="space-y-3">
+                                                {/* Botón personalizado */}
+                                                <div className="flex items-center gap-3">
+                                                    <Button
+                                                        type="button"
+                                                        variant="outline"
+                                                        onClick={() => fileInputRef.current?.click()}
+                                                        className="w-full"
+                                                    >
+                                                        <Upload className="mr-2 h-4 w-4" />
+                                                        {selectedFile ? 'Cambiar archivo' : 'Seleccionar archivo'}
+                                                    </Button>
+
+                                                    <Input
+                                                        ref={fileInputRef}
+                                                        id={field.name}
+                                                        name={field.name}
+                                                        type="file"
+                                                        accept=".pdf,.doc,.docx"
+                                                        className="hidden"
+                                                        onBlur={field.handleBlur}
+                                                        onChange={(e) => field.handleChange(e.target.files)}
+                                                        aria-invalid={isInvalid}
+                                                    />
+                                                </div>
+
+                                                {/* Info del archivo */}
+                                                {selectedFile && (
+                                                    <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+                                                        <FileText className="h-5 w-5 text-primary" />
+                                                        <div className="flex-1 min-w-0">
+                                                            <p className="text-sm font-medium truncate">
+                                                                {selectedFile.name}
+                                                            </p>
+                                                            <p className="text-xs text-muted-foreground">
+                                                                {(selectedFile.size / 1024).toFixed(2)} KB
+                                                            </p>
+                                                        </div>
+                                                        <Button
+                                                            type="button"
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            onClick={() => {
+                                                                field.handleChange(null);
+                                                                if (fileInputRef.current) {
+                                                                    fileInputRef.current.value = '';
+                                                                }
+                                                            }}
+                                                        >
+                                                            <X className="h-4 w-4" />
+                                                        </Button>
+                                                    </div>
+                                                )}
+
+                                                <p className="text-xs text-muted-foreground">
+                                                    Formatos permitidos: PDF, DOC, DOCX (máx. 5MB)
+                                                </p>
+                                            </div>
+
                                             {isInvalid && (
                                                 <FieldError errors={field.state.meta.errors} />
                                             )}
                                         </Field>
-                                    )
+                                    );
                                 }}
                             </form.Field>
                         </FieldGroup>
                     </form>
-                    
+
                 </CardContent>
                 <CardFooter>
                     {/* form.Subscribe is special tanstack component, that listens to changes in form
@@ -201,9 +252,9 @@ export default function UploadFormPage() {
                     </form.Subscribe>
                 </CardFooter>
                 {downloadUrl && (
-                        <Card>
+                    <Card>
                         <div className="mt-6 text-center">
-                            <p className="text-[#EC842B] text-lg font-semibold mb-2">
+                            <p className="text-[#EC842B] text-sm font-semibold mb-2">
                                 ¡Documento generado correctamente!
                             </p>
                             <a
@@ -214,8 +265,8 @@ export default function UploadFormPage() {
                                 <FileDown className="w-4 h-4" /> Descargar cuestionario
                             </a>
                         </div>
-                        </Card>
-                    )}
+                    </Card>
+                )}
             </Card>
         </div>
     )

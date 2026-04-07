@@ -11,6 +11,11 @@ export const Route = createFileRoute('/_app/products')({
         requireAuth(context);
     },
   component: ProductComponent,
+      loader: () => {
+        return {
+            crumb: 'Products'
+        }
+    }
 })
 
 function ProductComponent() {

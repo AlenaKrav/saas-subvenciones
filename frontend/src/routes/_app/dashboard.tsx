@@ -3,4 +3,9 @@ import DashboardPage from '../../components/DashboardPage';
 
 export const Route = createFileRoute('/_app/dashboard')({
     component: DashboardPage,
+    loader: () => {
+        return {
+            crumb: 'Dashboard'
+        }
+    }
 });
