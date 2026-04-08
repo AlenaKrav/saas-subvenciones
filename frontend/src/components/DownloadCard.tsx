@@ -11,7 +11,7 @@ type DownloadCardProps = {
     fileName?: string;
 }
 
-export function DownloadCard({ downloadUrl, fileName = "resultado.docx" }: DownloadCardProps) {
+export function DownloadCard({ downloadUrl, fileName = "cuestionario.docx" }: DownloadCardProps) {
     if (!downloadUrl) {
         return null;
     }

@@ -20,9 +20,9 @@ const data = {
   team: 
     {
       name: "TRAMITA",
-      logo: (
-        <img src="src/assets/Tramita circles dark blue.svg" alt="TRAMITA" className="h-6 w-auto" />
-      )
+      logoLight: <img src="src/assets/Icon Tramita Dark Blue.svg" alt="TRAMITA" className="h-6 w-auto" />,
+      logoDark: <img src="src/assets/Icon Tramita White.svg" alt="TRAMITA" className="h-6 w-auto" />,
+      
     },
   navMain: [
     {

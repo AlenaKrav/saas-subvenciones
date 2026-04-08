@@ -11,15 +11,21 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { useTheme } from "@/components/theme-provider"
 
 export function TeamSwitcher({
   team,
 }: {
   team: {
     name: string
-    logo: React.ReactNode
+    logoLight: React.ReactNode
+    logoDark: React.ReactNode
   }
 }) {
+
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -29,11 +35,11 @@ export function TeamSwitcher({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                {team.logo}
+              <div className="flex aspect-square size-8 items-center justify-center rounded-lg text-sidebar-primary-foreground">
+                {isDark ? team.logoDark : team.logoLight}
               </div>
               <div className="grid flex-1 text-left text-2xl leading-tight">
-                <span className="font-semibold text-[#03294F] text-sm sm:text-base md:text-2xl">{team.name}</span>
+                <span className="font-semibold text-sm sm:text-base md:text-2xl">{team.name}</span>
               </div>
             </SidebarMenuButton>
           </DropdownMenuTrigger>
