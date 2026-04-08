@@ -9,7 +9,6 @@ export default function DashboardPage() {
                     <DashboardCardLink
                         to="/formulario"
                         label="Ir a productos"
-
                     />
 
                     <DashboardCardLink
@@ -17,7 +16,6 @@ export default function DashboardPage() {
                         label="Ir a formulario"
                     />
                 </div>
-
                 <div className="min-h-screen flex-1 rounded-xl bg-muted/50 md:min-h-min">
                 </div>
             </div>

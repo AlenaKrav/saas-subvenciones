@@ -25,7 +25,8 @@ export async function processFileWithN8n(options: ProcessFileOptions): Promise<B
         {
             headers: formData.getHeaders(),
             responseType: 'arraybuffer',
-            httpsAgent: new (require('https').Agent)({ rejectUnauthorized: false }), //helpful to continue making requests in case of sert problems in 8n8
+            //helpful to continue making requests in case of certificate problems in 8n8
+            // httpsAgent: new (require('https').Agent)({ rejectUnauthorized: false }), 
         }
     );
 

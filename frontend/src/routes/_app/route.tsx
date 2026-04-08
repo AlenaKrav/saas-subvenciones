@@ -41,7 +41,6 @@ function DashboardLayout() {
     <TooltipProvider>
       <SidebarProvider>
         <Toaster position="top-right" richColors />
-        {/* Imports appsidebar component */}
         <AppSidebar />
         <SidebarInset>
           <header className="flex h-16 shrink-0 items-center justify-between px-4 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
@@ -51,19 +50,6 @@ function DashboardLayout() {
                 orientation="vertical"
                 className="mr-2 data-[orientation=vertical]:h-4"
               />
-              {/* <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="/dashboard">
-                      Dashboard
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator className="hidden md:block" />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>Formularios</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb> */}
               <BreadcrumbNav />
             </div>
             <Tooltip>
@@ -80,7 +66,6 @@ function DashboardLayout() {
           <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
             <div className="grid auto-rows-min gap-4 md:grid-cols-2">
             </div>
-            {/* Our custom component */}
             <Outlet />
           </div>
         </SidebarInset>

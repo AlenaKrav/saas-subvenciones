@@ -24,13 +24,11 @@ import { Loader2, Upload, X, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 import { DownloadCard } from './DownloadCard';
 
-// with .shape we access a particular key in our form validation schema
 const titleSchema = uploadSchema.shape.title;
 const fileSchema = uploadSchema.shape.file;
 
 
 export default function UploadFormPage() {
-    // used to control file input, as we can't control it completely with React, especially to reset it
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
 
@@ -142,7 +140,6 @@ export default function UploadFormPage() {
                                             <FieldLabel htmlFor={field.name}>Archivo</FieldLabel>
 
                                             <div className="space-y-3">
-                                                {/* Botón personalizado */}
                                                 <div className="flex items-center gap-3">
                                                     <Button
                                                         type="button"
@@ -167,7 +164,6 @@ export default function UploadFormPage() {
                                                     />
                                                 </div>
 
-                                                {/* Info del archivo */}
                                                 {selectedFile && (
                                                     <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
                                                         <FileText className="h-5 w-5 text-primary" />
@@ -212,12 +208,6 @@ export default function UploadFormPage() {
 
                 </CardContent>
                 <CardFooter>
-                    {/* form.Subscribe is special tanstack component, that listens to changes in form
-                        selector es una function that only selects that parts of states of our interest
-                        state.canSubmit = true all fields are valid, we can subit the form
-                        state.isSubmitting=true, while onSumbit is executing
-                    
-                    */}
                     <form.Subscribe
                         selector={(state) => ({
                             canSubmit: state.canSubmit,
@@ -253,9 +243,9 @@ export default function UploadFormPage() {
                     </form.Subscribe>
                 </CardFooter>
             </Card>
-                            {downloadUrl && (
-                    <DownloadCard downloadUrl={downloadUrl} />
-                )}
+            {downloadUrl && (
+                <DownloadCard downloadUrl={downloadUrl} />
+            )}
         </div>
     )
 }

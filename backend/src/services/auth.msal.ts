@@ -5,32 +5,24 @@ const AZURE_CLIENT_ID = process.env.AZURE_CLIENT_ID!;
 const AZURE_JWKS_URI = process.env.AZURE_JWKS_URI!;
 const AZURE_ISSUER = process.env.AZURE_ISSUER!
 
-
-// Function to create a client to download Microsfot public keys
 const client = jwksClient({
-    //The URL relatedd to our where Microsoft publish its public keys
     jwksUri: AZURE_JWKS_URI,
     cache: true,
     cacheMaxAge: 86400000,
 });
 
-// Function to obtain public key to verify the token
-// KID is key id of a key used by Microsoft to sign tokens
+
 async function getSignInKey(kid: string): Promise<string> {
     try {
-        // Download a public key with given KID
         const key = await client.getSigningKey(kid);
-        // Extract the public key in usable format (string instead of Object)
         const publicKey = key.getPublicKey();
         return publicKey;
     } catch (error) {
         console.error('Error getting signing key:', error);
         throw new Error('Failed to get signing key');
     }
-
 };
 
-// Function to verify if the JWT token signed by Microsoft is legitimate
 export async function verifyMsalToken(token: string): Promise<{
     userId: string;
     email: string;
@@ -41,13 +33,9 @@ export async function verifyMsalToken(token: string): Promise<{
         if (!decoded || typeof decoded === 'string' || typeof decoded.payload === 'string') {
             throw new Error('Invalid token format')
         }
-        // Obtain KID of Microsoft public key of our token
         const publicKey = await getSignInKey(decoded.header.kid!);
-        // Verify our token using Microsoft public key
         const verified = jwt.verify(token, publicKey, {
-            // Verify if token was emitted for our aplication, comparing our clienId with aud value of the token
             audience: AZURE_CLIENT_ID,
-            // Verify if token was emitted by our specific Tenant
             issuer: AZURE_ISSUER,
             algorithms: ['RS256']
         }) as JwtPayload;

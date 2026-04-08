@@ -1,10 +1,7 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import FormData from "form-data";
 import axios from "axios";
 import type { UploadBodyType } from "../schemas/upload.schema";
 import { processFileWithN8n } from "../services/n8n.service";
-
-const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL;
 
 export const uploadFileController = async (request: FastifyRequest<{ Body: UploadBodyType }>, reply: FastifyReply) => {
     try {

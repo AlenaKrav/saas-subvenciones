@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteRouteImport } from './routes/_app/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AppProductsRouteImport } from './routes/_app/products'
 import { Route as AppFormularioRouteImport } from './routes/_app/formulario'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 
@@ -30,11 +29,6 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppProductsRoute = AppProductsRouteImport.update({
-  id: '/products',
-  path: '/products',
-  getParentRoute: () => AppRouteRoute,
-} as any)
 const AppFormularioRoute = AppFormularioRouteImport.update({
   id: '/formulario',
   path: '/formulario',
@@ -51,14 +45,12 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/dashboard': typeof AppDashboardRoute
   '/formulario': typeof AppFormularioRoute
-  '/products': typeof AppProductsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/dashboard': typeof AppDashboardRoute
   '/formulario': typeof AppFormularioRoute
-  '/products': typeof AppProductsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -67,13 +59,12 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/formulario': typeof AppFormularioRoute
-  '/_app/products': typeof AppProductsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/dashboard' | '/formulario' | '/products'
+  fullPaths: '/' | '/login' | '/dashboard' | '/formulario'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/dashboard' | '/formulario' | '/products'
+  to: '/' | '/login' | '/dashboard' | '/formulario'
   id:
     | '__root__'
     | '/'
@@ -81,7 +72,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/_app/dashboard'
     | '/_app/formulario'
-    | '/_app/products'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -113,13 +103,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_app/products': {
-      id: '/_app/products'
-      path: '/products'
-      fullPath: '/products'
-      preLoaderRoute: typeof AppProductsRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
     '/_app/formulario': {
       id: '/_app/formulario'
       path: '/formulario'
@@ -140,13 +123,11 @@ declare module '@tanstack/react-router' {
 interface AppRouteRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppFormularioRoute: typeof AppFormularioRoute
-  AppProductsRoute: typeof AppProductsRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppFormularioRoute: AppFormularioRoute,
-  AppProductsRoute: AppProductsRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
