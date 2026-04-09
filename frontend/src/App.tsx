@@ -3,10 +3,12 @@ import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
 import { useIsAuthenticated, useMsal } from '@azure/msal-react';
 import { ThemeProvider } from "@/components/theme-provider"
+import  ErrorPage from "@/components/ErrorPage"
 
 
 const router = createRouter({
   routeTree,
+  defaultNotFoundComponent: ErrorPage,
   defaultPreload: 'intent',
   context: {
     isAuthenticated: false,
