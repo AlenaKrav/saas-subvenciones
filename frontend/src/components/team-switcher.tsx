@@ -39,7 +39,7 @@ export function TeamSwitcher({
                 {isDark ? team.logoDark : team.logoLight}
               </div>
               <div className="grid flex-1 text-left text-2xl leading-tight">
-                <span className="font-semibold text-sm sm:text-base md:text-2xl">{team.name}</span>
+                <span className="font-semibold text-sm sm:text-base md:text-2xl text-(--brand-color)">{team.name}</span>
               </div>
             </SidebarMenuButton>
           </DropdownMenuTrigger>
