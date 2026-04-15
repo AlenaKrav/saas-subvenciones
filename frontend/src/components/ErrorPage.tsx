@@ -18,7 +18,7 @@ const ErrorPage = () => {
                     variant="outline"
                     size="lg">
                     <Link to='/dashboard' preload={false}>
-                    Volver a dashboard</Link>
+                    Volver a la página principal</Link>
                 </Button>
             </div>
         </div>
