@@ -4,6 +4,7 @@ import authMsalRoutes from "./routes/auth.msal.routes";
 import cors from '@fastify/cors';
 import fastifyMultipart from "@fastify/multipart";
 import UploadRoutes from "./routes/upload.routes";
+import AiRoutes from "./routes/ai.routes";
 
 
 const app: FastifyInstance = fastify({ logger: true })
@@ -22,5 +23,7 @@ app.register(fastifyMultipart, {
 
 app.register(authMsalRoutes, { prefix: '/auth/msal' });
 app.register(UploadRoutes, { prefix: '/api' });
+app.register(AiRoutes);
+
 
 export default app;
