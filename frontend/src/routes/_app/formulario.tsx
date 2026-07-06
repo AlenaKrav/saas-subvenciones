@@ -3,7 +3,7 @@ import UploadFormPage from '@/components/UploadFormPage';
 
 
 export const Route = createFileRoute('/_app/formulario')({
-  component: RouteComponent,
+  component: UploadFormComponent,
       loader: () => {
         return {
             crumb: 'Formulario'
@@ -11,6 +11,6 @@ export const Route = createFileRoute('/_app/formulario')({
     }
 })
 
-function RouteComponent() {
+function UploadFormComponent() {
   return <UploadFormPage />
 }

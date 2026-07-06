@@ -21,7 +21,6 @@ function RootComponent() {
       try {
         const response = await instance.handleRedirectPromise();
         if (response?.account) {
-          //After Login set here an ActiveAccount to obtaint its data in other components usig getActiveAccount
           instance.setActiveAccount(response.account)
           console.log("Successfull login redirect:", response.account);
         }
