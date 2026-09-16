@@ -90,3 +90,14 @@ This allows the LLM processing to run on local infrastructure, providing greater
 This application was developed during my professional experience at **DAYDE**, where I worked on the frontend, backend, authentication, API integrations, document-processing workflow, and infrastructure of the application.
 
 The project provided practical experience in building a fullstack SaaS application, integrating authentication and external services, working with document-processing pipelines, and deploying distributed services in a Linux-based environment.
+
+## Deployment & Infrastructure
+
+The application was deployed using **Dockploy**, with each main service running in its own container:
+
+* React frontend
+* Fastify backend
+* PostgreSQL database
+* Garage S3 object storage
+
+The services were deployed and managed as separate containers, allowing the different components of the application to be isolated and independently managed.
